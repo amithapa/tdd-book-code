@@ -62,11 +62,14 @@ class TestMoney(unittest.TestCase):
         ):
             portfolio.evaluate(self.bank, "Kalganid")
 
-    def test_conversion(self):
+    def test_conversion_between_different_rates_between_two_currencies(self):
         bank = Bank()
         bank.add_exchange_rate("EUR", "USD", 1.2)
         ten_euros = Money(10, "EUR")
         self.assertEqual(bank.convert(ten_euros, "USD"), Money(12, "USD"))
+
+        bank.add_exchange_rate("EUR", "USD", 1.3)
+        self.assertEqual(bank.convert(ten_euros, "USD"), Money(13, "USD"))
 
     def test_conversion_with_missing_exchange_rate(self):
         bank = Bank()
